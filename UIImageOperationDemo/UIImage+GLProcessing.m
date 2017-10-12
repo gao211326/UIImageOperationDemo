@@ -165,7 +165,37 @@
     return [UIImage imageWithData:imageData];
 }
 
-
++ (UIImage *)gl_compressImage:(UIImage *)image maxSize:(CGFloat)maxSize
+{
+    if (maxSize <= 0) {
+        return nil;
+    }
+    
+    if (maxSizeKB <= 0) {
+        return nil;
+    }
+    
+    CGSize compressSize = image.size;
+    //获取缩放比 进行比较
+    CGFloat widthScale = compressSize.width*1.0 / maxSize;
+    CGFloat heightScale = compressSize.height*1.0 / maxSize;
+    
+    if (widthScale > 1 && widthScale > heightScale) {
+        compressSize = CGSizeMake(image.size.width/widthScale, image.size.height/widthScale);
+    }
+    else if (heightScale > 1 && heightScale > widthScale){
+        compressSize = CGSizeMake(image.size.width/heightScale, image.size.height/heightScale);
+    }
+    
+    //创建图片上下文 并获取剪切尺寸后的图片
+    UIGraphicsBeginImageContextWithOptions(compressSize, NO, 1);
+    CGRect rect = {CGPointZero,compressSize};
+    [image drawInRect:rect];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return newImage;
+}
 
 #pragma mark == GIF图片
 + (UIImage *)gl_animateGIFWithImagePath:(NSString *)imagePath
@@ -380,7 +410,7 @@ static CGFloat frameDuration(NSInteger index,CGImageSourceRef source)
     CGContextClearRect(context, clearRect);
     //得到新图片
     UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
-    
+
     UIGraphicsEndImageContext();
     //避免内存泄漏
     view.layer.contents = nil;

@@ -76,6 +76,15 @@
 
 
 /**
+ 压缩图片
+
+ @param image 原始图片
+ @param maxSize 压缩图片的最大尺寸 宽或者长中最大的
+ @return 返回压缩后的图片
+ */
++ (UIImage *)gl_compressImage:(UIImage *)image maxSize:(CGFloat)maxSize;
+
+/**
  加载动态gif图片
 
  @param imagePath gif图片路径 
