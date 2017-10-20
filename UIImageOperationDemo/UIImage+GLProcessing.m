@@ -171,9 +171,6 @@
         return nil;
     }
     
-    if (maxSizeKB <= 0) {
-        return nil;
-    }
     
     CGSize compressSize = image.size;
     //获取缩放比 进行比较
