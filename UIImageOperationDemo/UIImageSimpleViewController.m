@@ -27,7 +27,7 @@
 #pragma mark == private method
 - (void)addSubViews
 {
-    for (NSInteger i = 0; i < 6; i ++) {
+    for (NSInteger i = 0; i < 7; i ++) {
         UILabel *lable = [[UILabel alloc] init];
         lable.font = [UIFont systemFontOfSize:11];
         lable.textAlignment = NSTextAlignmentCenter;
@@ -37,10 +37,13 @@
         [self.view addSubview:imageView];
         
         if (i < 3) {
-            lable.frame = CGRectMake(15*(i+1)+80*i, 120, 80, 20);
+            lable.frame = CGRectMake(20*(i+1)+80*i, 120, 80, 20);
+            imageView.frame = CGRectMake(CGRectGetMinX(lable.frame), CGRectGetMaxY(lable.frame)+10, CGRectGetWidth(lable.frame), CGRectGetWidth(lable.frame));
+        }else if(i == 6){
+            lable.frame = CGRectMake(20, 120 + 2 * (10+80+40), 80, 20);
             imageView.frame = CGRectMake(CGRectGetMinX(lable.frame), CGRectGetMaxY(lable.frame)+10, CGRectGetWidth(lable.frame), CGRectGetWidth(lable.frame));
         }else{
-            lable.frame = CGRectMake(15*(i-3+1)+80*(i-3), 120+10+80+40, 80, 20);
+            lable.frame = CGRectMake(20*(i-3+1)+80*(i-3), 120+10+80+40, 80, 20);
             imageView.frame = CGRectMake(CGRectGetMinX(lable.frame), CGRectGetMaxY(lable.frame)+10, CGRectGetWidth(lable.frame), CGRectGetWidth(lable.frame));
         }
         
@@ -79,6 +82,24 @@
             {
                 lable.text = @"压缩图片";
                 imageView.image = [UIImage gl_compressImage:[UIImage imageNamed:@"11"] maxSize:30 maxSizeWithKB:5];
+            }
+                break;
+            case 6:
+            {
+                lable.text = @"组合头像";
+                //段落格式
+                NSMutableParagraphStyle *textStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
+                textStyle.lineBreakMode = NSLineBreakByWordWrapping;
+                textStyle.alignment = NSTextAlignmentCenter;//水平居中
+                //字体
+                UIFont *font = [UIFont boldSystemFontOfSize:18.0];
+                //构建属性集合
+                NSDictionary *attributes = @{NSFontAttributeName:font, NSParagraphStyleAttributeName:textStyle,NSForegroundColorAttributeName:[UIColor whiteColor]};
+                //获得size
+                NSAttributedString *attributeString = [[NSAttributedString alloc] initWithString:@"高" attributes:attributes];
+                NSAttributedString *attributeString1 = [[NSAttributedString alloc] initWithString:@"云" attributes:attributes];
+
+                imageView.image = [UIImage gl_groupHeadPortraitWithContents:@[attributeString,attributeString,attributeString,attributeString1] size:imageView.bounds.size];
             }
                 break;
             default:

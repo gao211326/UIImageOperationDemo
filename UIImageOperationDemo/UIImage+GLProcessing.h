@@ -154,4 +154,23 @@
 + (UIImage *)gl_wipeImageWithView:(UIView *)view movePoint:(CGPoint)point brushSize:(CGSize)size;
 
 
+/**
+ 绘制群组头像
+
+ @param contents 包含图片或者是文字的数组
+ @param size 大小
+ @return 返回生成后的图片
+ */
++ (UIImage *)gl_groupHeadPortraitWithContents:(NSArray *)contents size:(CGSize)size;
+
+
+/**
+ 根据文字创建圆形图片
+
+ @param string 文字
+ @param imageSize 图片大小
+ @param imageColor 图片颜色
+ @return 返回图片
+ */
++ (UIImage *)gl_creatImageWithString:(NSAttributedString *)string imageSize:(CGSize)imageSize imageColor:(UIColor *)imageColor;
 @end
